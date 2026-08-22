@@ -36,7 +36,8 @@ bool operator == (const GrepInfo& lhs, const GrepInfo& rhs) noexcept {
 		&& lhs.bGrepSeparateFolder == rhs.bGrepSeparateFolder
 		&& lhs.bGrepReplace == rhs.bGrepReplace
 		&& lhs.bGrepPaste == rhs.bGrepPaste
-		&& lhs.bGrepBackup == rhs.bGrepBackup;
+		&& lhs.bGrepBackup == rhs.bGrepBackup
+		&& lhs.bGrepUseRipgrep == rhs.bGrepUseRipgrep;
 }
 
 /*!
@@ -160,6 +161,10 @@ TEST(GrepInfo, operatorNotEqual)
 	value.bGrepBackup = true;
 	ASSERT_NE(value, other);
 	value.bGrepBackup = other.bGrepBackup;
+
+	value.bGrepUseRipgrep = true;
+	ASSERT_NE(value, other);
+	value.bGrepUseRipgrep = other.bGrepUseRipgrep;
 }
 
 /*!

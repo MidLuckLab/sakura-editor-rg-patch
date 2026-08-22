@@ -239,6 +239,7 @@ void CMacro::AddLParam( const LPARAM* lParams, const CEditView* pcEditView )
 			lFlag |= GetDllShareData().m_Common.m_sSearch.m_bGrepOutputFileOnly			? 0x20000 : 0x00;
 			lFlag |= GetDllShareData().m_Common.m_sSearch.m_bGrepOutputBaseFolder		? 0x40000 : 0x00;
 			lFlag |= GetDllShareData().m_Common.m_sSearch.m_bGrepSeparateFolder			? 0x80000 : 0x00;
+			lFlag |= pcDlgGrep->m_bGrepUseRipgrep										? 0x800000 : 0x00;
 			if( F_GREP_REPLACE == m_nFuncID ){
 				lFlag |= pcDlgGrepRep->m_bPaste											? 0x100000 : 0x00;
 				lFlag |= GetDllShareData().m_Common.m_sSearch.m_bGrepBackup				? 0x200000 : 0x00;
@@ -1027,6 +1028,7 @@ bool CMacro::HandleCommand(
 		//		0x020000	ファイル毎最初のみ検索
 		//		0x040000	ベースフォルダー表示
 		//		0x080000	フォルダー毎に表示
+		//		0x800000	ripgrep(rg.exe)を使用する
 		{
 			if( Argument[0] == nullptr ){
 				::MYMESSAGEBOX( nullptr, MB_OK | MB_ICONSTOP | MB_TOPMOST, EXEC_ERROR_TITLE,
@@ -1120,6 +1122,7 @@ bool CMacro::HandleCommand(
 			if( lFlag & 0x20000 )wcscat( pOpt, L"F" );
 			if( lFlag & 0x40000 )wcscat( pOpt, L"B" );
 			if( lFlag & 0x80000 )wcscat( pOpt, L"D" );
+			if( lFlag & 0x800000 )wcscat( pOpt, L"G" );	/* ripgrep(rg.exe)を使用する */
 			if( bGrepReplace ){
 				if( lFlag & 0x100000 )wcscat( pOpt, L"C" );
 				if( lFlag & 0x200000 )wcscat( pOpt, L"O" );

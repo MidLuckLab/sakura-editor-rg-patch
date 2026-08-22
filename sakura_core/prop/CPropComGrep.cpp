@@ -18,6 +18,7 @@
 #include "StdAfx.h"
 #include "prop/CPropCommon.h"
 #include "extmodule/CBregexp.h"	// 2007.08/12 genta バージョン取得
+#include "grep/CGrepRipgrep.h"
 #include "util/shell.h"
 #include "util/window.h"
 #include "apiwrap/StdControl.h"
@@ -30,6 +31,9 @@ static const DWORD p_helpids[] = {	//10500
 	IDC_EDIT_REGEXPLIB,				HIDC_EDIT_REGEXPLIB,	//正規表現ライブラリ選択	// 2007.09.02 genta
 	IDC_LABEL_REGEXP,				HIDC_EDIT_REGEXPLIB,
 	IDC_LABEL_REGEXP_VER,			HIDC_LABEL_REGEXPVER,	//正規表現ライブラリバージョン	// 2007.09.02 genta
+	IDC_EDIT_RGPATH,				HIDC_EDIT_RGPATH,		//ripgrep(rg.exe)のパス選択
+	IDC_LABEL_RGPATH,				HIDC_EDIT_RGPATH,
+	IDC_LABEL_RGPATH_VER,			HIDC_LABEL_RGPATHVER,	//ripgrepバージョン
 	IDC_CHECK_bCaretTextForSearch,	HIDC_CHECK_bCaretTextForSearch,	//カーソル位置の文字列をデフォルトの検索文字列にする	// 2006.08.23 ryoji
 	IDC_CHECK_INHERIT_KEY_OTHER_VIEW, HIDC_CHECK_INHERIT_KEY_OTHER_VIEW,	// 次・前検索で他のビューの検索条件を引き継ぐ	// 2011.12.18 Moca
 	IDC_CHECK_bGrepExitConfirm,		HIDC_CHECK_bGrepExitConfirm,	//GREPの保存確認
@@ -105,6 +109,9 @@ INT_PTR CPropGrep::DispatchEvent( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 		if( wParam == MAKEWPARAM( IDC_EDIT_REGEXPLIB, EN_KILLFOCUS )){
 			SetRegexpVersion( hwndDlg );
 		}
+		if( wParam == MAKEWPARAM( IDC_EDIT_RGPATH, EN_KILLFOCUS )){
+			SetRipgrepVersion( hwndDlg );
+		}
 		break;
 
 //@@@ 2001.02.04 Start by MIK: Popup Help
@@ -159,6 +166,11 @@ void CPropGrep::SetData( HWND hwndDlg )
 	ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_REGEXPLIB ), int(std::size(m_Common.m_sSearch.m_szRegexpLib)) - 1 );
 	ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_REGEXPLIB, m_Common.m_sSearch.m_szRegexpLib);
 	SetRegexpVersion( hwndDlg );
+
+	// ripgrep(rg.exe)のパス。空欄ならsakura.exeと同じフォルダー及びPATHから自動検出する
+	ApiWrap::EditCtl_LimitText( ::GetDlgItem( hwndDlg, IDC_EDIT_RGPATH ), int(std::size(m_Common.m_sSearch.m_szRipgrepExePath)) - 1 );
+	ApiWrap::DlgItem_SetText( hwndDlg, IDC_EDIT_RGPATH, m_Common.m_sSearch.m_szRipgrepExePath);
+	SetRipgrepVersion( hwndDlg );
 
 	struct tagTagJumpMode TagJumpMode1Arr[] ={
 		{ 0, STR_TAGJUMP_0 },
@@ -222,6 +234,9 @@ int CPropGrep::GetData( HWND hwndDlg )
 	//	2007.08.12 genta 正規表現DLL
 	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_REGEXPLIB, m_Common.m_sSearch.m_szRegexpLib, int(std::size(m_Common.m_sSearch.m_szRegexpLib)));
 
+	// ripgrep(rg.exe)のパス
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_RGPATH, m_Common.m_sSearch.m_szRipgrepExePath, int(std::size(m_Common.m_sSearch.m_szRipgrepExePath)));
+
 	HWND hwndCombo = ::GetDlgItem(hwndDlg, IDC_COMBO_TAGJUMP);
 	int nSelPos = ApiWrap::Combo_GetCurSel(hwndCombo);
 	m_Common.m_sSearch.m_nTagJumpMode = (int)ApiWrap::Combo_GetItemData(hwndCombo, nSelPos);
@@ -244,4 +259,18 @@ void CPropGrep::SetRegexpVersion( HWND hwndDlg )
 		return;
 	}
 	ApiWrap::DlgItem_SetText( hwndDlg, IDC_LABEL_REGEXP_VER, breg.GetVersionW() );
+}
+
+void CPropGrep::SetRipgrepVersion( HWND hwndDlg )
+{
+	WCHAR szConfiguredPath[_MAX_PATH];
+	ApiWrap::DlgItem_GetText( hwndDlg, IDC_EDIT_RGPATH, szConfiguredPath, int(std::size(szConfiguredPath)) );
+
+	std::wstring strExePath = CGrepRipgrep::ResolveRipgrepPath( szConfiguredPath );
+	std::wstring strVersion;
+	if( strExePath.empty() || !CGrepRipgrep::TryGetRipgrepVersion( strExePath, &strVersion ) ){
+		ApiWrap::DlgItem_SetText( hwndDlg, IDC_LABEL_RGPATH_VER, LS(STR_PROPCOMGREP_RG_NOTFOUND) );
+		return;
+	}
+	ApiWrap::DlgItem_SetText( hwndDlg, IDC_LABEL_RGPATH_VER, strVersion.c_str() );
 }

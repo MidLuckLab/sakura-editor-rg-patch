@@ -418,6 +418,7 @@ protected:
 
 private:
 	void SetRegexpVersion(HWND hwndDlg); // 2007.08.12 genta バージョン表示
+	void SetRipgrepVersion(HWND hwndDlg); // ripgrep(rg.exe)のバージョン表示
 };
 
 //==============================================================

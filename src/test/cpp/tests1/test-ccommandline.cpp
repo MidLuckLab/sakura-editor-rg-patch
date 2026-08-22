@@ -736,6 +736,20 @@ TEST(CCommandLine, ParseGrepReplaceCreateBackupFiles)
 }
 
 /*!
+* @brief パラメータ解析(-GOPT)の仕様
+* @remark -GOPTが指定されていなければFALSE
+* @remark -GOPTが指定されていたらTRUE
+*/
+TEST(CCommandLine, ParseGrepUseRipgrep)
+{
+	CCommandLine cCommandLine;
+	cCommandLine.ParseCommandLine(L"", false);
+	EXPECT_FALSE(cCommandLine.GetGrepInfoRef().bGrepUseRipgrep);
+	cCommandLine.ParseCommandLine(L"-GOPT=G", false);
+	EXPECT_TRUE(cCommandLine.GetGrepInfoRef().bGrepUseRipgrep);
+}
+
+/*!
  * @brief パラメータ解析(-GCODE)の仕様
  * @remark -GCODEが指定されていなければSJIS
  * @remark -GCODEが指定されていたら指定された数値

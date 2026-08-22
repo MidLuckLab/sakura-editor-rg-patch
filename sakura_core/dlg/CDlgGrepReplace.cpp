@@ -62,6 +62,7 @@ const DWORD p_helpids[] = {
 	IDC_CHECK_FILE_ONLY,			HIDC_GREP_REP_CHECK_FILE_ONLY,			//ファイル毎最初のみ検索
 	IDC_CHECK_BASE_PATH,			HIDC_GREP_REP_CHECK_BASE_PATH,			//ベースフォルダー表示
 	IDC_CHECK_SEP_FOLDER,			HIDC_GREP_REP_CHECK_SEP_FOLDER,			//フォルダー毎に表示
+	IDC_CHK_USE_RIPGREP,			HIDC_GREP_REP_CHK_USE_RIPGREP,			//ripgrep(rg.exe)を使用する(Grep置換では無効)
 	0, 0
 };
 

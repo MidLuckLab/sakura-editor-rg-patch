@@ -30,6 +30,7 @@ struct SGrepOption{
 	bool		bGrepSeparateFolder;	//!< フォルダー毎に表示
 	bool		bGrepPaste;				//!< Grep置換：クリップボードから貼り付ける
 	bool		bGrepBackup;			//!< Grep置換：バックアップ
+	bool		bGrepUseRipgrep;		//!< ripgrep(rg.exe)を使用する
 
 	SGrepOption() :
 		 bGrepReplace(false)
@@ -44,6 +45,7 @@ struct SGrepOption{
 		,bGrepSeparateFolder(false)
 		,bGrepPaste(false)
 		,bGrepBackup(false)
+		,bGrepUseRipgrep(false)
 	{}
 };
 
@@ -81,10 +83,41 @@ public:
 		bool					bGrepOutputBaseFolder,	//!< [in] ベースフォルダー表示
 		bool					bGrepSeparateFolder,	//!< [in] フォルダー毎に表示
 		bool					bGrepPaste,
-		bool					bGrepBackup
+		bool					bGrepBackup,
+		bool					bGrepUseRipgrep
 	);
 
 private:
+	// Grep実行(ripgrepを使用)
+	int DoGrepRipgrepPath(
+		CEditView*				pcViewDst,
+		CDlgCancel*				pcDlgCancel,		//!< [in] Cancelダイアログへのポインタ
+		const wchar_t*			pszKey,				//!< [in] 検索パターン
+		CGrepEnumKeys&			cGrepEnumKeys,		//!< [in] 検索対象ファイルパターン(!で除外指定)
+		const WCHAR*			pszPath,			//!< [in] 検索対象パス(絶対パス、末尾に'\\'を含まない)
+		const SSearchOption&	sSearchOption,		//!< [in] 検索オプション
+		const SGrepOption&		sGrepOption,		//!< [in] Grepオプション
+		const std::wstring&	strRipgrepExePath,	//!< [in] rg.exeのパス
+		bool&					bOutputBaseFolder,
+		int*					pnHitCount,			//!< [i/o] ヒット数の合計
+		CNativeW&				cmemMessage,
+		CNativeW&				cUnicodeBuffer
+	);
+
+	// ファイル/フォルダーの見出し行を出力する
+	static void OutputPathInfo(
+		CNativeW&		cmemMessage,
+		SGrepOption		sGrepOption,
+		const WCHAR*	pszFullPath,
+		const WCHAR*	pszBaseFolder,
+		const WCHAR*	pszFolder,
+		const WCHAR*	pszRelPath,
+		const WCHAR*	pszCodeName,
+		bool&			bOutputBaseFolder,
+		bool&			bOutputFolderName,
+		BOOL&			bOutFileName
+	);
+
 	// Grep実行
 	int DoGrepTree(
 		CEditView*				pcViewDst,

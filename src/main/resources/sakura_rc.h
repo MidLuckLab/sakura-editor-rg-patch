@@ -1850,15 +1850,23 @@
 #define IDS_EOLTYPENAME_4               35054
 #define IDS_EOLTYPENAME_5               35055
 #define IDS_EOLTYPENAME_6               35056
+#define STR_GREP_USE_RIPGREP            35057
+#define STR_PROPCOMGREP_RG_NOTFOUND     35058
+#define STR_GREP_RIPGREP_SKIP_AUTODETECT 35059
 #define IDC_STATIC                      -1
 
+#define IDC_CHK_USE_RIPGREP             1742
+#define IDC_EDIT_RGPATH                 1743
+#define IDC_LABEL_RGPATH                1744
+#define IDC_LABEL_RGPATH_VER            1745
+
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        35057
+#define _APS_NEXT_RESOURCE_VALUE        35060
 #define _APS_NEXT_COMMAND_VALUE         101
-#define _APS_NEXT_CONTROL_VALUE         1741
+#define _APS_NEXT_CONTROL_VALUE         1746
 #define _APS_NEXT_SYMED_VALUE           10000
 #endif
 #endif

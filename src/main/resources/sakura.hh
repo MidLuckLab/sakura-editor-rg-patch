@@ -504,6 +504,8 @@
 #define HIDC_LABEL_REGEXPVER					10515 //正規表現ライブラリ選択	// 2007.09.02 genta
 #define HIDC_COMBO_TAGJUMP						10516 //タグファイルの検索
 #define HIDC_COMBO_KEYWORD_TAGJUMP				10517 //タグファイルの検索
+#define HIDC_EDIT_RGPATH						10518 //ripgrep(rg.exe)のパス選択
+#define HIDC_LABEL_RGPATHVER					10519 //ripgrepバージョン
 //#define HIDC_BUTTON_HOKANFILE_REF				10600 //入力補完 単語ファイル参照			//Jul. 05, 2001 JEPRO タイプ別に移動
 //#define HIDC_BUTTON_KEYWORDHELPFILE_REF			10601 //キーワードヘルプファイル参照	//Jul. 05, 2001 JEPRO タイプ別に移動
 #define HIDC_BUTTON_OPENHELP1					10602 //外部ヘルプファイル参照
@@ -834,6 +836,7 @@
 #define HIDC_GREP_CHECK_CP				12025	//コードページ
 #define HIDC_GREP_COMBO_EXCLUDE_FILE	12026	//除外ファイル
 #define HIDC_GREP_COMBO_EXCLUDE_FOLDER	12027	//除外フォルダー
+#define HIDC_GREP_CHK_USE_RIPGREP		12028	//ripgrep(rg.exe)を使用する
 
 //外部コマンド
 #define HIDC_EXEC_BUTTON_REFERENCE	12100	//参照
@@ -1171,6 +1174,7 @@
 #define HIDC_GREP_REP_CHECK_BASE_PATH		14526	//ベースフォルダー表示
 #define HIDC_GREP_REP_CHECK_SEP_FOLDER		14527	//フォルダー毎に表示
 #define HIDC_GREP_REP_CHECK_CP				14528	//CP
+#define HIDC_GREP_REP_CHK_USE_RIPGREP		14529	//ripgrep(rg.exe)を使用する(Grep置換では無効)
 
 //プロファイル一覧
 #define HIDC_LIST_PROFILE					14600	//プロファイル一覧

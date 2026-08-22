@@ -273,7 +273,8 @@ bool CNormalProcess::InitializeProcess()
 				gi.bGrepOutputBaseFolder,
 				gi.bGrepSeparateFolder,
 				gi.bGrepPaste,
-				gi.bGrepBackup
+				gi.bGrepBackup,
+				gi.bGrepUseRipgrep
 			);
 			pEditWnd->m_cDlgFuncList.Refresh();	// アウトラインを再解析する
 		}
@@ -303,6 +304,7 @@ bool CNormalProcess::InitializeProcess()
 			GetDllShareData().m_Common.m_sSearch.m_nGrepCharSet = gi.nGrepCharSet;
 			GetDllShareData().m_Common.m_sSearch.m_nGrepOutputLineType = gi.nGrepOutputLineType;
 			GetDllShareData().m_Common.m_sSearch.m_nGrepOutputStyle = gi.nGrepOutputStyle;
+			GetDllShareData().m_Common.m_sSearch.m_bGrepUseRipgrep = gi.bGrepUseRipgrep;
 			// 2003.06.23 Moca GREPダイアログ表示前にMutexを解放
 			//	こうしないとGrepが終わるまで新しいウィンドウを開けない
 			SetMainWindow( pEditWnd->GetHwnd() );

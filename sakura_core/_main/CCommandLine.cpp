@@ -540,6 +540,9 @@ void CCommandLine::ParseCommandLine( LPCWSTR pszCmdLineSrc, bool bResponse )
 						m_gi.bGrepPaste = true;	break;
 					case 'O':
 						m_gi.bGrepBackup = true;	break;
+					case 'G':
+						// ripgrep(rg.exe)を使用する
+						m_gi.bGrepUseRipgrep = true;	break;
 					default:
 						break;
 					}

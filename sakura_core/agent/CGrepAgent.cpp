@@ -7,6 +7,7 @@
 #include "StdAfx.h"
 #include "agent/CGrepAgent.h"
 #include "grep/CGrepEnumKeys.h"
+#include "grep/CGrepRipgrep.h"
 #include "grep/CGrepEnumFilterFiles.h"
 #include "grep/CGrepEnumFilterFolders.h"
 #include "agent/CSearchAgent.h"
@@ -346,7 +347,8 @@ DWORD CGrepAgent::DoGrep(
 	bool					bGrepOutputBaseFolder,
 	bool					bGrepSeparateFolder,
 	bool					bGrepPaste,
-	bool					bGrepBackup
+	bool					bGrepBackup,
+	bool					bGrepUseRipgrep
 )
 {
 	MY_RUNNINGTIMER( cRunningTimer, L"CEditView::DoGrep" );
@@ -499,6 +501,7 @@ DWORD CGrepAgent::DoGrep(
 	sGrepOption.bGrepReplace = bGrepReplace;
 	sGrepOption.bGrepPaste = bGrepPaste;
 	sGrepOption.bGrepBackup = bGrepBackup;
+	sGrepOption.bGrepUseRipgrep = bGrepUseRipgrep;
 	if( sGrepOption.bGrepReplace ){
 		// Grep否定行はGrep置換では無効
 		if( sGrepOption.nGrepOutputLineType == 2 ){
@@ -536,6 +539,15 @@ DWORD CGrepAgent::DoGrep(
 			ErrorMessage( pcViewDst->m_hwndParent, L"%s", pszErrorMessage );
 			return 0;
 		}
+	}
+
+	// ripgrep(rg.exe)を使用するか判定する
+	// 2025 ripgrep高速検索パッチ
+	std::wstring strRipgrepExePath;
+	bool bUseRipgrepForThisSearch = false;
+	if( CGrepRipgrep::CanUseRipgrep( sGrepOption, false, pcmGrepKey->GetStringPtr(), cGrepEnumKeys ) ){
+		strRipgrepExePath = CGrepRipgrep::ResolveRipgrepPath( GetDllShareData().m_Common.m_sSearch.m_szRipgrepExePath );
+		bUseRipgrepForThisSearch = !strRipgrepExePath.empty();
 	}
 
 	// 出力対象ビューのタイプ別設定(grepout固定)
@@ -681,6 +693,13 @@ DWORD CGrepAgent::DoGrep(
 		}
 	}
 
+	if( bUseRipgrepForThisSearch ){
+		cmemMessage.AppendString( LS( STR_GREP_USE_RIPGREP ) );	//L"    (ripgrep(rg)を使用)\r\n"
+	}else if( sGrepOption.bGrepUseRipgrep && CODE_AUTODETECT == sGrepOption.nGrepCharSet ){
+		// チェックはONだが文字コード自動判別のため不使用。原因が分かりにくいので明示する
+		cmemMessage.AppendString( LS( STR_GREP_RIPGREP_SKIP_AUTODETECT ) );	//L"    (ripgrep(rg)は文字コードセットの自動判別に対応していないため不使用。文字コードセットを指定してください)\r\n"
+	}
+
 	cmemMessage.AppendString( L"\r\n\r\n" );
 	nWork = cmemMessage.GetStringLength();
 	pszWork = cmemMessage.GetStringPtr();
@@ -762,26 +781,44 @@ DWORD CGrepAgent::DoGrep(
 		for( int nPath = 0; nPath < (int)vPaths.size(); nPath++ ){
 			bool bOutputBaseFolder = false;
 			std::wstring sPath = ChopYen( vPaths[nPath] );
-			int nTreeRet = DoGrepTree(
-				pcViewDst,
-				&cDlgCancel,
-				pcmGrepKey->GetStringPtr(),
-				cmemReplace,
-				cGrepEnumKeys,
-				cGrepExceptAbsFiles,
-				cGrepExceptAbsFolders,
-				sPath.c_str(),
-				sPath.c_str(),
-				sSearchOption,
-				sGrepOption,
-				pattern,
-				&cRegexp,
-				0,
-				bOutputBaseFolder,
-				&nHitCount,
-				cmemMessage,
-				cUnicodeBuffer
-			);
+			int nTreeRet;
+			if( bUseRipgrepForThisSearch ){
+				nTreeRet = DoGrepRipgrepPath(
+					pcViewDst,
+					&cDlgCancel,
+					pcmGrepKey->GetStringPtr(),
+					cGrepEnumKeys,
+					sPath.c_str(),
+					sSearchOption,
+					sGrepOption,
+					strRipgrepExePath,
+					bOutputBaseFolder,
+					&nHitCount,
+					cmemMessage,
+					cUnicodeBuffer
+				);
+			}else{
+				nTreeRet = DoGrepTree(
+					pcViewDst,
+					&cDlgCancel,
+					pcmGrepKey->GetStringPtr(),
+					cmemReplace,
+					cGrepEnumKeys,
+					cGrepExceptAbsFiles,
+					cGrepExceptAbsFolders,
+					sPath.c_str(),
+					sPath.c_str(),
+					sSearchOption,
+					sGrepOption,
+					pattern,
+					&cRegexp,
+					0,
+					bOutputBaseFolder,
+					&nHitCount,
+					cmemMessage,
+					cUnicodeBuffer
+				);
+			}
 			if( nTreeRet == -1 ){
 				nGrepTreeResult = -1;
 				break;
@@ -1200,7 +1237,7 @@ void CGrepAgent::SetGrepResult(
 	}
 }
 
-static void OutputPathInfo(
+void CGrepAgent::OutputPathInfo(
 	CNativeW&		cmemMessage,
 	SGrepOption		sGrepOption,
 	const WCHAR*	pszFullPath,

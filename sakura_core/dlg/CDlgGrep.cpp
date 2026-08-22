@@ -65,6 +65,7 @@ const DWORD p_helpids[] = {	//12000
 	IDC_CHECK_FILE_ONLY,			HIDC_CHECK_FILE_ONLY,				//ファイル毎最初のみ検索
 	IDC_CHECK_BASE_PATH,			HIDC_CHECK_BASE_PATH,				//ベースフォルダー表示
 	IDC_CHECK_SEP_FOLDER,			HIDC_CHECK_SEP_FOLDER,				//フォルダー毎に表示
+	IDC_CHK_USE_RIPGREP,			HIDC_GREP_CHK_USE_RIPGREP,			//ripgrep(rg.exe)を使用する
 //	IDC_STATIC,						-1,
 	0, 0
 };	//@@@ 2002.01.07 add end MIK
@@ -84,6 +85,7 @@ CDlgGrep::CDlgGrep()
 	m_bGrepOutputFileOnly = false;
 	m_bGrepOutputBaseFolder = false;
 	m_bGrepSeparateFolder = false;
+	m_bGrepUseRipgrep = false;
 
 	m_bSetText = false;
 	m_szFile[0] = 0;
@@ -247,6 +249,7 @@ int CDlgGrep::DoModal( HINSTANCE hInstance, HWND hwndParent, const WCHAR* pszCur
 	m_bGrepOutputFileOnly = m_pShareData->m_Common.m_sSearch.m_bGrepOutputFileOnly;
 	m_bGrepOutputBaseFolder = m_pShareData->m_Common.m_sSearch.m_bGrepOutputBaseFolder;
 	m_bGrepSeparateFolder = m_pShareData->m_Common.m_sSearch.m_bGrepSeparateFolder;
+	m_bGrepUseRipgrep = m_pShareData->m_Common.m_sSearch.m_bGrepUseRipgrep != FALSE;
 
 	// 2013.05.21 コンストラクタからDoModalに移動
 	// m_strText は呼び出し元で設定済み
@@ -714,6 +717,7 @@ void CDlgGrep::SetData( void )
 	CheckDlgButtonBool( GetHwnd(), IDC_CHECK_FILE_ONLY, m_bGrepOutputFileOnly );
 	CheckDlgButtonBool( GetHwnd(), IDC_CHECK_BASE_PATH, m_bGrepOutputBaseFolder );
 	CheckDlgButtonBool( GetHwnd(), IDC_CHECK_SEP_FOLDER, m_bGrepSeparateFolder );
+	CheckDlgButtonBool( GetHwnd(), IDC_CHK_USE_RIPGREP, m_bGrepUseRipgrep );
 
 	// フォルダーの初期値をカレントフォルダーにする
 	::CheckDlgButton( GetHwnd(), IDC_CHK_DEFAULTFOLDER, m_pShareData->m_Common.m_sSearch.m_bGrepDefaultFolder );
@@ -817,6 +821,7 @@ int CDlgGrep::GetData( void )
 	m_bGrepOutputFileOnly = IsDlgButtonCheckedBool( GetHwnd(), IDC_CHECK_FILE_ONLY );
 	m_bGrepOutputBaseFolder = IsDlgButtonCheckedBool( GetHwnd(), IDC_CHECK_BASE_PATH );
 	m_bGrepSeparateFolder = IsDlgButtonCheckedBool( GetHwnd(), IDC_CHECK_SEP_FOLDER );
+	m_bGrepUseRipgrep = IsDlgButtonCheckedBool( GetHwnd(), IDC_CHK_USE_RIPGREP );
 
 	/* 検索文字列 */
 	m_bSetText = ApiWrap::DlgItem_GetText( GetHwnd(), IDC_COMBO_TEXT, m_strText );;
@@ -852,6 +857,7 @@ int CDlgGrep::GetData( void )
 	m_pShareData->m_Common.m_sSearch.m_bGrepOutputFileOnly = m_bGrepOutputFileOnly;
 	m_pShareData->m_Common.m_sSearch.m_bGrepOutputBaseFolder = m_bGrepOutputBaseFolder;
 	m_pShareData->m_Common.m_sSearch.m_bGrepSeparateFolder = m_bGrepSeparateFolder;
+	m_pShareData->m_Common.m_sSearch.m_bGrepUseRipgrep = m_bGrepUseRipgrep;
 
 	if( m_szFile[0] != '\0' ) {
 		CGrepEnumKeys enumKeys;
