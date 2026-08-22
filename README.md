@@ -10,7 +10,7 @@ A free text editor for Windows.
 
 > **非公式フォーク / 変更版**
 >
-> このリポジトリは [Sakura Editor](https://github.com/sakura-editor/sakura) を基に、ripgrep を利用する Grep の改善と関連設定を加えた変更版です。公式プロジェクトではありません。元プロジェクトのライセンスは [LICENSE](./LICENSE) を保持し、第三者コンポーネントは [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) に整理しています。GitHub 公開時の確認事項は [PUBLISHING.md](./PUBLISHING.md) を参照してください。
+> このリポジトリは [Sakura Editor](https://github.com/sakura-editor/sakura) を基に、ripgrep を利用する Grep の改善と関連設定を加えた変更版です。公式プロジェクトではありません。元プロジェクトのライセンスは [LICENSE](./LICENSE) を保持し、MidLuckLab が著作権を持つ変更部分は [MIT License](./LICENSE-MidLuckLab-MIT.txt) でも利用できます。適用範囲は [MIDLUCKLAB_CONTRIBUTIONS.md](./MIDLUCKLAB_CONTRIBUTIONS.md) を参照してください。第三者コンポーネントは [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) に整理しています。
 
 <!-- 以下は Markdownの参照形式によるリンク の定義です。 -->
 <!-- 参照 https://hail2u.net/blog/coding/markdown-reference-style-links.html -->
@@ -54,7 +54,7 @@ GitHubで公開しているので [GitHub Actionsのビルドページ](https://
 
 ## フォークとライセンス
 
-このリポジトリは Sakura Editor の非公式な変更版です。変更内容はコミット履歴と本 README に記載し、元の [zlib License](./LICENSE) と著作権表示を保持しています。第三者コンポーネントのライセンスファイルは削除・改変せずに同梱し、一覧と配布時の確認事項を [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) に記載しています。
+このリポジトリは Sakura Editor の非公式な変更版です。変更内容はコミット履歴と本 README に記載し、元の [zlib License](./LICENSE) と著作権表示を保持しています。MidLuckLab が著作権を持つ変更・追加部分には [MIT License](./LICENSE-MidLuckLab-MIT.txt) を追加適用しています。詳細な対象範囲は [MIDLUCKLAB_CONTRIBUTIONS.md](./MIDLUCKLAB_CONTRIBUTIONS.md) を参照してください。第三者コンポーネントのライセンスファイルは削除・改変せずに同梱し、一覧と配布時の確認事項を [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) に記載しています。
 
 ## 開発情報
 

@@ -11,7 +11,7 @@
 | 説明 | `Unofficial Sakura Editor fork with ripgrep-enabled Grep.` |
 | 可視性 | Public |
 | 既定ブランチ | 公開対象として確認済みのブランチ |
-| ライセンス表示 | 既存の `LICENSE`（zlib License）を保持する。GitHub 上で別のライセンスを追加しない。 |
+| ライセンス表示 | 既存の `LICENSE`（zlib License）を保持する。MidLuckLab の変更部分のみを [LICENSE-MidLuckLab-MIT.txt](./LICENSE-MidLuckLab-MIT.txt) で MIT として追加許諾する。 |
 
 公開先の GitHub リポジトリは空で作成します。作成時に README、`.gitignore`、LICENSE を GitHub 側で追加しないでください。ローカルの履歴とライセンスをそのまま公開するためです。
 
@@ -19,6 +19,7 @@
 
 - [x] ルートの `LICENSE` を保持している。
 - [x] README に非公式フォークであること、元プロジェクト、主な変更点を記載している。
+- [x] MidLuckLab が著作権を持つ変更部分の MIT License と適用範囲を明記している。
 - [x] [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) に第三者コンポーネントと確認箇所を記載している。
 - [x] `rg.exe` を同梱しない方針を明記している。
 - [ ] `git status` を確認し、意図しない生成物・秘密情報が含まれていないことを確認する。

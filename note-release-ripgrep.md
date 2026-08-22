@@ -2,6 +2,18 @@
 
 大量のソースコードやログを扱っていると、必要な文字列を探す時間は意外に積み重なります。今回、サクラエディタのGrepに **ripgrep（`rg.exe`）を利用する高速検索パス** を追加しました。
 
+## ソースコードと配布先
+
+この変更版は、[Sakura Editor](https://github.com/sakura-editor/sakura) を基にした**非公式フォーク**です。公式プロジェクトとは別に管理しています。
+
+- ソースコード: <https://github.com/MidLuckLab/sakura-editor-rg-patch>
+- `sakura.exe`（preview）: <https://github.com/MidLuckLab/sakura-editor-rg-patch/releases/tag/rg-patch-preview-20260822>
+- ライセンス: <https://github.com/MidLuckLab/sakura-editor-rg-patch/blob/feature/ripgrep-grep/LICENSE>
+- MidLuckLab の変更部分（MIT License）: <https://github.com/MidLuckLab/sakura-editor-rg-patch/blob/feature/ripgrep-grep/MIDLUCKLAB_CONTRIBUTIONS.md>
+- 第三者コンポーネントの通知: <https://github.com/MidLuckLab/sakura-editor-rg-patch/blob/feature/ripgrep-grep/THIRD_PARTY_NOTICES.md>
+
+preview リリースには `sakura.exe` だけを置いており、インストーラーと `rg.exe` は含めていません。ripgrep を使うには、別途 [ripgrep](https://github.com/BurntSushi/ripgrep) から `rg.exe` を用意してください。
+
 ## 何が変わるのか
 
 Grepダイアログの「ripgrep（`rg.exe`）を使用する」は、初期状態で有効です。対応する検索条件ではサクラエディタが `rg.exe` を起動して検索します。検索結果は従来どおりサクラエディタのGrep結果として表示されるため、結果一覧からファイルを開く普段の操作は変わりません。
