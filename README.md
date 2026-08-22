@@ -29,6 +29,7 @@ A free text editor for Windows.
   - [ダウンロード](#ダウンロード)
   - [開発情報](#開発情報)
     - [How to build](#how-to-build)
+    - [ripgrep を使った Grep](#ripgrep-を使った-grep)
     - [Static code analysis](#static-code-analysis)
   - [変更履歴](#変更履歴)
 
@@ -52,6 +53,14 @@ GitHubで公開しているので [GitHub Actionsのビルドページ](https://
 
 `sakura.sln`を開いてビルドできます。  
 詳細は [ビルド方法](./tools/build.md) を参照。
+
+### ripgrep を使った Grep
+
+Grep では、`rg.exe`（ripgrep）を利用する高速検索を既定で有効にしています。`rg.exe` はサクラエディタの実行ファイルと同じフォルダー、環境変数 `PATH`、または設定画面で指定したパスから検出します。見つからない場合や対応外の検索条件では、従来の Grep に自動的に切り替わります。
+
+高速検索を利用するには、Grep ダイアログの「文字コードセット」で **UTF-8** または **Shift_JIS** などの文字コードを明示指定してください。「自動判別」では ripgrep を使用しません。ripgrep の自動判別は BOM の検出に限られ、サクラエディタの自動判別と結果が異なる可能性があるためです。
+
+既存の設定ファイルに `bGrepUseRipgrep` が保存されている場合は、その設定を維持します。
 
 ### Static code analysis
 

@@ -462,7 +462,7 @@ bool CShareData::InitShareData()
 			sSearch.m_bCaretTextForSearch = TRUE;		/* 2006.08.23 ryoji カーソル位置の文字列をデフォルトの検索文字列にする */
 			sSearch.m_bInheritKeyOtherView = true;
 			sSearch.m_szRegexpLib[0] = L'\0';		/* 2007.08.12 genta 正規表現DLL */
-			sSearch.m_bGrepUseRipgrep = FALSE;		/* ripgrep(rg.exe)を使用する */
+			sSearch.m_bGrepUseRipgrep = TRUE;		/* ripgrep(rg.exe)を使用する */
 			sSearch.m_szRipgrepExePath[0] = L'\0';	/* ripgrep(rg.exe)のパス(空文字列なら自動検出) */
 			sSearch.m_bGTJW_RETURN = TRUE;				/* エンターキーでタグジャンプ */
 			sSearch.m_bGTJW_LDBLCLK = TRUE;			/* ダブルクリックでタグジャンプ */

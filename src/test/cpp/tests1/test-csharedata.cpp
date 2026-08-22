@@ -546,7 +546,7 @@ MATCHER(IsInitializedCommonSettingSearch, "Checks if CommonSetting_Search is pro
 	EXPECT_THAT(sSearch.m_bGrepDefaultFolder, IsFalse());
 	EXPECT_THAT(sSearch.m_nGrepCharSet, CODE_AUTODETECT);
 	EXPECT_THAT(sSearch.m_bGrepRealTimeView, IsFalse());
-	EXPECT_THAT(sSearch.m_bGrepUseRipgrep, IsFalse());
+	EXPECT_THAT(sSearch.m_bGrepUseRipgrep, IsTrue());
 	EXPECT_THAT(sSearch.m_szRipgrepExePath, StrEq(L""));
 	EXPECT_THAT(sSearch.m_bCaretTextForSearch, IsTrue());
 	EXPECT_THAT(sSearch.m_bInheritKeyOtherView, IsTrue());
