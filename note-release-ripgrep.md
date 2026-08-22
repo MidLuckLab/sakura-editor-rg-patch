@@ -9,7 +9,6 @@
 - ソースコード: <https://github.com/MidLuckLab/sakura-editor-rg-patch>
 - `sakura.exe`（preview）: <https://github.com/MidLuckLab/sakura-editor-rg-patch/releases/tag/rg-patch-preview-20260822>
 - ライセンス: <https://github.com/MidLuckLab/sakura-editor-rg-patch/blob/feature/ripgrep-grep/LICENSE>
-- MidLuckLab の変更部分（MIT License）: <https://github.com/MidLuckLab/sakura-editor-rg-patch/blob/feature/ripgrep-grep/MIDLUCKLAB_CONTRIBUTIONS.md>
 - 第三者コンポーネントの通知: <https://github.com/MidLuckLab/sakura-editor-rg-patch/blob/feature/ripgrep-grep/THIRD_PARTY_NOTICES.md>
 
 preview リリースには `sakura.exe` だけを置いており、インストーラーと `rg.exe` は含めていません。ripgrep を使うには、別途 [ripgrep](https://github.com/BurntSushi/ripgrep) から `rg.exe` を用意してください。
